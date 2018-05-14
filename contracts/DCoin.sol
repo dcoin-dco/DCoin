@@ -1,5 +1,8 @@
 pragma solidity ^0.4.18;
 
+import './SafeMath.sol';
+import './ERC20Interface.sol';
+
 contract DCoin is ERC20Interface {
   using SafeMath for uint;
 
@@ -76,7 +79,7 @@ contract DCoin is ERC20Interface {
     balances[_targetAddress] = balances[_targetAddress].add(_mintedAmount);
     totalSupply = totalSupply.add(_mintedAmount);
     emit Mint(_targetAddress, _mintedAmount);
-    emit Transfer(address(0), _targetAddress, _mintedAmount);
+    emit Transfer(address(0), _targetAddress, _mintedAmount) ;
     return true;
   }
 
@@ -213,3 +216,4 @@ contract DCoin is ERC20Interface {
   function transferAnyERC20Token(address _tokenAddress, uint _value) public onlyOwner returns (bool success) {
       return ERC20Interface(_tokenAddress).transfer(owner, _value);
   }
+}
