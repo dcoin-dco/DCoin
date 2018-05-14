@@ -1,27 +1,23 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.4;
 
-library SafeMath {
-  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-    if (a == 0) {
-      return 0;
-    }
-    uint256 c = a * b;
-    assert(c / a == b);
-    return c;
+contract Migrations {
+  address public owner;
+  uint public last_completed_migration;
+
+  modifier restricted() {
+    if (msg.sender == owner) _;
   }
-  function div(uint256 a, uint256 b) internal pure returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
+
+  function Migrations() {
+    owner = msg.sender;
   }
-  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-    assert(b <= a);
-    return a - b;
+
+  function setCompleted(uint completed) restricted {
+    last_completed_migration = completed;
   }
-  function add(uint256 a, uint256 b) internal pure returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a && c>=b);
-    return c;
+
+  function upgrade(address new_address) restricted {
+    Migrations upgraded = Migrations(new_address);
+    upgraded.setCompleted(last_completed_migration);
   }
 }

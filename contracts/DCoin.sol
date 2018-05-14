@@ -25,7 +25,7 @@ contract DCoin is ERC20Interface {
   
 
   // constructor
-  function DCoin () public {
+  constructor() public {
     owner = msg.sender;
   }
 
